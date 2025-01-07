@@ -11,6 +11,7 @@ import time
 import pandas as pd
 from WebDriverSetup import setup_web_driver
 from SearchScrapper import SearchScrapper
+from datetime import datetime, timedelta
 
 def main(mode):
     """
@@ -31,6 +32,9 @@ def main(mode):
         # Replace or extend this list with relevant hashtags.
         start_date = "2025-01-02"
         end_date = "2025-01-03"
+
+
+
         all_tweets = []
 
         for hashtag in hashtags:
@@ -64,18 +68,36 @@ def main(mode):
 
     elif mode == 1:
         # User timeline scraping
-        users = ['REDBOXINDIA', 'NDTVProfit', 'CNBCTV18Live', 'ETNOWlive']  # Replace 
-        start_date = "2025-01-03"
-        end_date = "2025-01-05"
+        users = ['REDBOXINDIA']  # Replace 
+        
+        
+
+        # start_date = "2025-01-05"
+        # end_date = "2025-01-03"
+        
+        # Automatic latest yesterdays : TODO change accordingly
+        c = datetime.today() 
+        today = c.strftime("%Y") + "-" + c.strftime("%m") + "-" + c.strftime("%d") 
+
+        c = datetime.today() - timedelta(1)
+        yesterday = c.strftime("%Y") + "-" + c.strftime("%m") + "-" + c.strftime("%d") 
+        
+        # not one day past :> One week past 
+        c = datetime.today() - timedelta(7)
+        week_past = c.strftime("%Y") + "-" + c.strftime("%m") + "-" + c.strftime("%d") 
+
+        start_date = week_past
+        end_date = today
+
         all_tweets = []
 
         for user in users:
-            search_query = f'https://x.com/search?q=%28from%3A{user}%29+until%3A{end_date}+since%3A{start_date}&src=typed_query&f=live'
+            search_query = f'https://x.com/search?q=%28from%3A{user}%29+since%3A{start_date}&src=typed_query&f=live'
             scraped_tweets = SearchScrapper(driver).scrape_twitter_query(search_query, user, max_tweets=50)
 
             tweets_data = [
                 (
-                    tweet.ID,  tweet.timestamp, tweet.content
+                    user, tweet.ID,  tweet.timestamp, tweet.content.strip()
                     # , tweet.author, tweet.fullName, tweet.url,
                     # tweet.image_url, None, None, tweet.video_url, tweet.video_preview_image_url,
                     # None, None, None, None, tweet.comments, tweet.retweets, None, tweet.likes,
@@ -87,7 +109,7 @@ def main(mode):
 
         # Save results
         columns = [
-            'id','Date&Time','text'
+            'user', 'id','Date&Time','text'
             # 'username', 'fullname', 'url', 'publication_date', 'photo_url',
             # 'photo_preview_image_url', 'photo_alt_text', 'video_url', 'video_preview_image_url',
             # 'video_alt_text', 'animated_gif_url', 'animated_gif_preview_image_url', 'animated_gif_alt_text',

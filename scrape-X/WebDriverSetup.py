@@ -38,7 +38,7 @@ def setup_web_driver():
         element = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, '/html/body/div/div/div/div[1]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[4]/label/div/div[2]/div/input'))
         )
-        element.send_keys('@username')  # username
+        element.send_keys('@ganeshlocalapp')  # username
         time.sleep(2)
 
         # Click 'Next' button
@@ -48,7 +48,7 @@ def setup_web_driver():
         element = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input'))
         )
-        element.send_keys('password')  # password
+        element.send_keys('Get$et@1cr')  # password
         time.sleep(2)
 
         # Click 'Login' button
