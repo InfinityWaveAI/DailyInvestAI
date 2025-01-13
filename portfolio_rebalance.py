@@ -106,16 +106,16 @@ print('SHARPE RATIO:',sharpe(pflio(return_df,6,3),0.025))
 print('MAX_DRAWDOWN',max_dd(pflio(return_df,6,3)))
 
 #calculating KPIs for Index buy and hold strategy over the same period
-DJI = yf.download("^NSEI",dt.date.today()-dt.timedelta(3650),dt.date.today(),interval='1mo')
-DJI["mon_ret"] = DJI["Adj Close"].pct_change().fillna(0)
-CAGR(DJI)
-sharpe(DJI,0.025)
-max_dd(DJI)
+NIFTY = yf.download("^NSEI",dt.date.today()-dt.timedelta(3650),dt.date.today(),interval='1mo')
+NIFTY["mon_ret"] = NIFTY["Adj Close"].pct_change().fillna(0)
+CAGR(NIFTY)
+sharpe(NIFTY,0.025)
+max_dd(NIFTY)
 
 #visualization
 fig, ax = plt.subplots()
 plt.plot((1+pflio(return_df,6,3)).cumprod())
-plt.plot((1+DJI["mon_ret"].reset_index(drop=True)).cumprod())
+plt.plot((1+NIFTY["mon_ret"].reset_index(drop=True)).cumprod())
 plt.title("Index Return vs Strategy Return")
 plt.ylabel("cumulative return")
 plt.xlabel("months")
